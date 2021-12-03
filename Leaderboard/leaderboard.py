@@ -1,5 +1,6 @@
 import json
 import matplotlib.pyplot as plt
+import matplotlib.scale as pltscale
 import os
 import sys
 import numpy as np
@@ -20,7 +21,7 @@ delta = 0
 with open("lastrequest.txt","r") as l:
     last = int(l.read())
     delta = int(time.time()) - last
-print(f"sec till last update {delta}")
+print(f"last update {delta}s ago")
 if delta > 15*60:
     print("updated leaderboard.json as it was older than 15 min")
     #Get cookies from the browser
@@ -54,10 +55,6 @@ for i in j['members']:
 
 from datetime import datetime
 days = range(1,26)
-fig = plt.figure(figsize=(16, 16), dpi=PLOT_QUALITY)
-ax = fig.add_subplot(111)
-plt.grid(axis="y")
-plt.title(f"Advent of Code {year} Time to solve")
 usernames = []
 data = dict()
 for m in members:
@@ -89,6 +86,10 @@ for m in members:
     else:
         usernames.pop()
 
+fig = plt.figure(figsize=(20, 20), dpi=PLOT_QUALITY)
+ax = fig.add_subplot(111)
+plt.grid(axis="y")
+plt.title(f"Advent of Code {year} Time to solve")
 cm = plt.get_cmap('tab20')
 ax.set_prop_cycle(color=[cm(1.*i/20) for i in range(20)])
 maxtime = 0
@@ -107,11 +108,26 @@ plt.xlabel("Day")
 plt.legend()
 plt.ylabel("Time to Solve in s")
 plt.xticks(days[:currentday])
-plt.yticks([0,600,60*30,3600,3600*2,3600*3,3600*4,3600*5,3600*6,3600*7,3600*8,3600*9,3600*10,3600*11,3600*12,3600*13,3600*14,3600*15,3600*16,3600*17,3600*18,3600*19,3600*20,3600*21,3600*22,3600*23,3600*24],
-    ["Start","10min","30min","1h","2h","3h","4h","5h","6h","7h","8h","9h","10h","11h","12h","13h","14h","15h","16h","17h","18h","19h","20h","21h","22h","23h","24h"])
 plt.xlim(0,currentday+1)
+plt.yscale("log")
+plt.savefig("Advent-of-Code/leaderboardlog.png")
+plt.yscale("symlog")
+plt.savefig("Advent-of-Code/leaderboardsymlog.png")
+plt.yscale("linear")
+plt.xticks(days[:currentday])
+plt.xlim(0,currentday+1)
+ylabel = ["Start","10min","30min"]
+ylabelvalue = [0,600,60*30]
+for i in range(101):
+    ylabel.append(f"{i}h")
+    ylabelvalue.append(i*3600)
+plt.yticks(ylabelvalue,ylabel)
 plt.ylim(-20,maxtime+600)
 plt.savefig("Advent-of-Code/leaderboard.png")
+plt.ylim(-20,2*3600)
+plt.savefig("Advent-of-Code/leaderboard2h.png")
+plt.ylim(-20,3600)
+plt.savefig("Advent-of-Code/leaderboard1h.png")
 
 
 days = range(1,26)
@@ -181,7 +197,7 @@ for d in range(1,currentday+1):
 
 
 
-fig = plt.figure(figsize=(16, 10), dpi=PLOT_QUALITY)
+fig = plt.figure(figsize=(16, 12), dpi=PLOT_QUALITY)
 ax = fig.add_subplot(111)
 plt.grid(axis="y")
 plt.title(f"Advent of Code {year} Rankings")
