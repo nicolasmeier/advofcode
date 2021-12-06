@@ -5,28 +5,20 @@ import numpy as np
 import math
 import functools
 os.chdir(os.path.dirname(sys.argv[0]))
-
-
 li = []
 with open("03.txt") as f:
     li = [x.strip() for x in f.readlines()]
-    #li = [int(x.strip()) for x in f.readlines()]
-res = ""
-eps = ""
+    
+print(len(li[0]))
 def fres():
     res = ""
     for i in range(len(li[0])):
         is1 = 0
         ll = 0
-        lic = li.copy()
-        lica = li.copy()
-        for l in lic:
+        for l in li:
             if l.startswith(res):
                 ll += 1
                 is1 += int(l[i])
-            else:
-                lica.remove(l)
-        lic = lica
         if ll == 1:
             for l in li:
                 if l.startswith(res):
@@ -35,22 +27,16 @@ def fres():
             res += "1"
         else:
             res += "0"
-        print(res)
     return res
 def feps():
     res = ""
     for i in range(len(li[0])):
         is1 = 0
         ll = 0
-        lic = li.copy()
-        lica = li.copy()
-        for l in lic:
+        for l in li:
             if l.startswith(res):
                 ll += 1
                 is1 += int(l[i])
-            else:
-                lica.remove(l)
-        lic = lica
         if ll == 1:
             for l in li:
                 if l.startswith(res):
@@ -65,4 +51,4 @@ eps = feps()
 ri = int(res, 2)
 epsi = int(eps, 2)
 print(ri,epsi)
-print(ri*epsi)
+print(ri*epsi == 4550283)
