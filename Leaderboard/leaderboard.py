@@ -111,8 +111,6 @@ plt.xticks(days[:currentday])
 plt.xlim(0,currentday+1)
 plt.yscale("log")
 plt.savefig("Advent-of-Code/leaderboardlog.png")
-plt.yscale("symlog")
-plt.savefig("Advent-of-Code/leaderboardsymlog.png")
 plt.yscale("linear")
 plt.xticks(days[:currentday])
 plt.xlim(0,currentday+1)
@@ -124,10 +122,12 @@ for i in range(101):
 plt.yticks(ylabelvalue,ylabel)
 plt.ylim(-20,maxtime+600)
 plt.savefig("Advent-of-Code/leaderboard.png")
+'''
 plt.ylim(-20,2*3600)
 plt.savefig("Advent-of-Code/leaderboard2h.png")
 plt.ylim(-20,3600)
 plt.savefig("Advent-of-Code/leaderboard1h.png")
+'''
 
 
 days = range(1,26)
@@ -178,8 +178,8 @@ df = pd.DataFrame(table,columns=cols)
 df = df.sort_values("localscore",ascending=False)
 #print(df)
 df.to_markdown("Advent-of-Code/tts.md")
-df.to_markdown("Advent-of-Code/data/tts.md")
-df.to_csv("Advent-of-Code/data/tts.csv")
+#df.to_markdown("Advent-of-Code/data/tts.md")
+#df.to_csv("Advent-of-Code/data/tts.csv")
 df.to_excel("Advent-of-Code/data/tts.xlsx")
 
 # Rankings
@@ -197,7 +197,7 @@ for d in range(1,currentday+1):
 
 
 
-fig = plt.figure(figsize=(16, 12), dpi=PLOT_QUALITY)
+fig = plt.figure(figsize=(22, 14), dpi=PLOT_QUALITY)
 ax = fig.add_subplot(111)
 plt.grid(axis="y")
 plt.title(f"Advent of Code {year} Rankings")
@@ -244,39 +244,8 @@ rf = pd.DataFrame(rankdata,columns=cols)
 rf = rf.sort_values("username")
 #print(rf)
 rf.to_markdown("Advent-of-Code/rankings.md")
-rf.to_markdown("Advent-of-Code/data/rankings.md")
-rf.to_csv("Advent-of-Code/data/rankings.csv")
+#rf.to_markdown("Advent-of-Code/data/rankings.md")
+#rf.to_csv("Advent-of-Code/data/rankings.csv")
 rf.to_excel("Advent-of-Code/data/rankings.xlsx")
-'''
-txt_line = ""
-csv_line = "Username;"
-# 2678400
-unl = max([len(k) for k in usertimes.keys()])
-usrl = "Username"
-txt_line +="| "+usrl.ljust(unl)+" |"
-for q in days:
-    txt_line += str(f"Day {q}").rjust(7)+" |"
-    csv_line += f"Day {q};"
-txt_line += "TotalTime".rjust(9)+" |"
-csv_line += f"TotalTime"
-for k,time in usertimes.items():
-    txt_line += "\n| " + str(k).ljust(unl)+" |"
-    csv_line += "\n" + str(k) + ";"
-    for d in days:
-        if d in time.keys():
-            txt_line += str(time[d]).rjust(7)+" |"
-            csv_line += str(time[d]).rjust(7) + ";"
-        else:
-            txt_line += "".rjust(7)+" |"
-            csv_line += ";"
-    txt_line += str(sum([w for w in time.values()])).rjust(9) + " |"
-    csv_line += str(sum([w for w in time.values()]))
 
-csv_line += "\n"
-
-with open("leaderboard.txt","w") as txt_file:
-    txt_file.write(txt_line)
-with open("leaderboard.csv","w") as csv_file:
-    csv_file.write(csv_line)
-'''
 #print("Done")
