@@ -5,9 +5,9 @@
 
 ![rankings](https://github.zhaw.ch/pages/meiern10/Advent-of-Code/rankings.png "rankings")
 
-## [time to solve](https://github.zhaw.ch/pages/meiern10/Advent-of-Code/tts)
+### [time to solve](https://github.zhaw.ch/pages/meiern10/Advent-of-Code/tts)
 
-## [rankings](https://github.zhaw.ch/pages/meiern10/Advent-of-Code/rankings)
+### [rankings](https://github.zhaw.ch/pages/meiern10/Advent-of-Code/rankings)
 
 ### [GitHub Repo](https://github.zhaw.ch/meiern10/Advent-of-Code/)
 

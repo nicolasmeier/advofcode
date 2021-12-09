@@ -180,7 +180,7 @@ df = df.sort_values("localscore",ascending=False)
 df.to_markdown("Advent-of-Code/tts.md")
 #df.to_markdown("Advent-of-Code/data/tts.md")
 #df.to_csv("Advent-of-Code/data/tts.csv")
-df.to_excel("Advent-of-Code/data/tts.xlsx")
+#df.to_excel("Advent-of-Code/data/tts.xlsx")
 
 # Rankings
 
@@ -246,6 +246,6 @@ rf = rf.sort_values("username")
 rf.to_markdown("Advent-of-Code/rankings.md")
 #rf.to_markdown("Advent-of-Code/data/rankings.md")
 #rf.to_csv("Advent-of-Code/data/rankings.csv")
-rf.to_excel("Advent-of-Code/data/rankings.xlsx")
+#rf.to_excel("Advent-of-Code/data/rankings.xlsx")
 
 #print("Done")
