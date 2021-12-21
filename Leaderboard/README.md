@@ -1,6 +1,4 @@
 
-![time to solve](https://github.zhaw.ch/pages/meiern10/Advent-of-Code/leaderboard.png "time to solve")
-
 ![time to solve](https://github.zhaw.ch/pages/meiern10/Advent-of-Code/leaderboardlog.png "time to solve")
 
 ![rankings](https://github.zhaw.ch/pages/meiern10/Advent-of-Code/rankings.png "rankings")

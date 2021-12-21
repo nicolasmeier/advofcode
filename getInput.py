@@ -41,7 +41,7 @@ if out_fn in os.listdir(year):
     os.remove(out_fp)
 
 #Get cookies from the browser
-cj = browser_cookie3.chrome()
+cj = browser_cookie3.firefox()
 
 r = requests.get(inputurl, allow_redirects=False,cookies=cj)
 

@@ -22,7 +22,7 @@ with open("lastrequest.txt","r") as l:
     last = int(l.read())
     delta = int(time.time()) - last
 print(f"last update {delta}s ago")
-if delta > 15*60:
+if delta > 15*60*0:
     print("updated leaderboard.json as it was older than 15 min")
     #Get cookies from the browser
     cj = browser_cookie3.firefox()
@@ -33,12 +33,7 @@ if delta > 15*60:
     open("lastrequest.txt","w").write(str(int(time.time())))
 
 
-lastupdated = datetime.today().strftime('Last updated at %H:%M %d.%m.')
 currentday = int(datetime.today().strftime('%d'))
-with open("Advent-of-Code/README.MD","w") as out:
-    out.write(lastupdated + "\n")
-    with open("README.MD","r") as template:
-        out.write(template.read())
 
 j = ""
 with open("leaderboard.json") as f:
@@ -50,8 +45,6 @@ year = int(j['event'])
 members = []
 for i in j['members']:
     members.append(dict(j['members'][i]))
-
-
 
 from datetime import datetime
 days = range(1,26)
@@ -84,53 +77,6 @@ for m in members:
         data[usernames[-1]] = speed
     else:
         usernames.pop()
-
-fig = plt.figure(figsize=(16, 12), dpi=PLOT_QUALITY)
-ax = fig.add_subplot(111)
-plt.grid(axis="y")
-plt.title(f"Advent of Code {year} Time to solve")
-cm = plt.get_cmap('tab20')
-ax.set_prop_cycle(color=[cm(1.*i/20) for i in range(20)])
-maxtime = 0
-m=0
-for un, speed in data.items():
-    maxtime = max(maxtime,max(speed))
-    if sum(speed) > 0:
-        speedmasked = np.ma.array(speed)
-        for i in range(len(speed)):
-            if speed[i] == 0:
-                speedmasked[i] = np.ma.masked
-        ax.plot(days[:currentday],speedmasked[:currentday],f":{markers[m]}",label=un)
-        m = (m +1) % 9
-#plt.legend(usernames)
-
-box = ax.get_position()
-ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-plt.xlabel("Day")
-plt.ylabel("Time to Solve in s")
-plt.xticks(days[:currentday])
-plt.xlim(0,currentday+1)
-plt.yscale("log")
-plt.savefig("Advent-of-Code/leaderboardlog.png")
-plt.yscale("linear")
-plt.xticks(days[:currentday])
-plt.xlim(0,currentday+1)
-plt.ylim(-20,maxtime+600)
-plt.savefig("Advent-of-Code/leaderboard.png")
-
-ylabel = ["Start","10min","30min"]
-ylabelvalue = [0,600,60*30]
-for i in range(11):
-    ylabel.append(f"{i}h")
-    ylabelvalue.append(i*3600)
-plt.yticks(ylabelvalue,ylabel)
-plt.ylim(-20,2*3600)
-plt.savefig("Advent-of-Code/leaderboard2h.png")
-plt.ylim(-20,3600)
-plt.savefig("Advent-of-Code/leaderboard1h.png")
-
-
 
 days = range(1,26)
 usertimes = dict()
@@ -165,7 +111,6 @@ for k,time in usertimes.items():
     row = []
     row.append(k)
     for d in days:
-        
         if d in time.keys():
             row.append(time[d])
         else:
@@ -178,11 +123,59 @@ for k,time in usertimes.items():
 
 df = pd.DataFrame(table,columns=cols)
 df = df.sort_values("localscore",ascending=False)
-#print(df)
-df.to_markdown("Advent-of-Code/tts.md")
-df.to_markdown("Advent-of-Code/data/tts.md")
-df.to_csv("Advent-of-Code/data/tts.csv")
-df.to_excel("Advent-of-Code/data/tts.xlsx")
+# "jerryzhch"
+df = df[df["username"] != "celinahoma1"]
+df = df[df["username"] != "jerryzhch"]
+top10 = df.head(10)
+print()
+t10 = top10.to_numpy()
+
+days = range(1,26)
+usertimes = dict()
+userscore = dict()
+for t in t10:
+    [n, *d, s] = t
+    #print(n,d)
+    userscore[n] = s
+    usertimes[n] = d
+
+
+
+
+fig = plt.figure(figsize=(16, 12), dpi=PLOT_QUALITY)
+ax = fig.add_subplot(111)
+plt.grid(axis="y")
+cm = plt.get_cmap('tab10')
+ax.set_prop_cycle(color=[cm(1.*i/10) for i in range(10)])
+for un, speed in usertimes.items():
+    if sum(speed) > 0:
+        speedmasked = np.ma.array(speed)
+        for i in range(len(speed)):
+            if speed[i] == 0:
+                speedmasked[i] = np.ma.masked
+        ax.plot(days[:currentday],speedmasked[:currentday],f":x",label=un)
+#plt.legend(usernames)
+
+plt.legend()
+plt.xlabel("Day")
+plt.ylabel("Time to Solve in s")
+plt.xticks(days[:currentday])
+plt.xlim(0,currentday+1)
+plt.yscale("linear")
+plt.xticks(days[:currentday])
+plt.xlim(0,currentday+1)
+plt.savefig("Advent-of-Code/top10.png")
+
+
+
+
+
+
+quit()
+#df.to_markdown("Advent-of-Code/tts.md")
+#df.to_markdown("Advent-of-Code/data/tts.md")
+#df.to_csv("Advent-of-Code/data/tts.csv")
+#df.to_excel("Advent-of-Code/data/tts.xlsx")
 
 # Rankings
 
@@ -248,8 +241,8 @@ rf = pd.DataFrame(rankdata,columns=cols)
 rf = rf.sort_values("username")
 #print(rf)
 rf.to_markdown("Advent-of-Code/rankings.md")
-rf.to_markdown("Advent-of-Code/data/rankings.md")
-rf.to_csv("Advent-of-Code/data/rankings.csv")
-rf.to_excel("Advent-of-Code/data/rankings.xlsx")
+#rf.to_markdown("Advent-of-Code/data/rankings.md")
+#rf.to_csv("Advent-of-Code/data/rankings.csv")
+#rf.to_excel("Advent-of-Code/data/rankings.xlsx")
 
 #print("Done")
