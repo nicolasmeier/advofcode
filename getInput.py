@@ -11,7 +11,7 @@ os.chdir(os.path.dirname(sys.argv[0]))
 
 
 today = date.today()
-year = "2021"
+year = "2022"
 day = date.today().strftime("%d").lstrip("0")
 
 print(f"Day {day} Y={year}")
