@@ -3,3 +3,6 @@
 /Leaderboard/Advent-of-Code-Data/*.csv
 /Leaderboard/Advent-of-Code-Data/*.md
 /Leaderboard/Advent-of-Code-Data/*.xlsx
+.idea
+.idea/*
+/Leaderboard/leaderboard.json
