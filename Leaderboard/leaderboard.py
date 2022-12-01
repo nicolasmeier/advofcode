@@ -1,45 +1,28 @@
 import json
 import matplotlib.pyplot as plt
-import matplotlib.scale as pltscale
 import os
 import sys
 import numpy as np
 from numpy.ma.core import masked
 import pandas as pd
 from datetime import datetime
-import browser_cookie3
-import requests
 import time
-
-
-
 os.chdir(os.path.dirname(sys.argv[0]))
+import getLeaderboard as leaderboardapi
+leaderboardapi.getLeaderboard()
+
+
+
+
 
 PLOT_QUALITY = 240*1
 markers = ['o', 'x', '+', 'v', '^', '<', '>', 's', 'd','p']
-delta = 0
-with open("lastrequest.txt","r") as l:
-    last = int(l.read())
-    delta = int(time.time()) - last
-print(f"last update {delta}s ago")
-if delta > 15*60:
-    print("updated leaderboard.json as it was older than 15 min")
-    #Get cookies from the browser
-    cj = browser_cookie3.firefox()
 
-    r = requests.get("https://adventofcode.com/2021/leaderboard/private/view/1483124.json", allow_redirects=False,cookies=cj)
-
-    open("leaderboard.json", 'wb').write(r.content)
-    open("lastrequest.txt","w").write(str(int(time.time())))
 
 
 lastupdated = datetime.today().strftime('Last updated at %H:%M %d.%m.')
 currentday = int(datetime.today().strftime('%d'))
 currentday = 25
-with open("Advent-of-Code/README.MD","w") as out:
-    out.write(lastupdated + "\n")
-    with open("README.MD","r") as template:
-        out.write(template.read())
 
 j = ""
 with open("leaderboard.json") as f:
@@ -113,12 +96,12 @@ plt.ylabel("Time to Solve in s")
 plt.xticks(days[:currentday])
 plt.xlim(0,currentday+1)
 plt.yscale("log")
-plt.savefig("Advent-of-Code/leaderboardlog.png")
+plt.savefig("Advent-of-Code-Data/leaderboardlog.png")
 plt.yscale("linear")
 plt.xticks(days[:currentday])
 plt.xlim(0,currentday+1)
 plt.ylim(-20,maxtime+600)
-plt.savefig("Advent-of-Code/leaderboard.png")
+plt.savefig("Advent-of-Code-Data/leaderboard.png")
 
 ylabel = ["Start","10min","30min"]
 ylabelvalue = [0,600,60*30]
@@ -127,9 +110,9 @@ for i in range(11):
     ylabelvalue.append(i*3600)
 plt.yticks(ylabelvalue,ylabel)
 plt.ylim(-20,2*3600)
-plt.savefig("Advent-of-Code/leaderboard2h.png")
+plt.savefig("Advent-of-Code-Data/leaderboard2h.png")
 plt.ylim(-20,3600)
-plt.savefig("Advent-of-Code/leaderboard1h.png")
+plt.savefig("Advent-of-Code-Data/leaderboard1h.png")
 
 
 
@@ -180,10 +163,10 @@ for k,time in usertimes.items():
 df = pd.DataFrame(table,columns=cols)
 df = df.sort_values("localscore",ascending=False)
 #print(df)
-df.to_markdown("Advent-of-Code/tts.md")
-df.to_markdown("Advent-of-Code/data/tts.md")
-df.to_csv("Advent-of-Code/data/tts.csv")
-#df.to_excel("Advent-of-Code/data/tts.xlsx")
+df.to_markdown("Advent-of-Code-Data/tts.md")
+df.to_markdown("Advent-of-Code-Data/tts.md")
+df.to_csv("Advent-of-Code-Data/tts.csv")
+#df.to_excel("Advent-of-Code-Data/tts.xlsx")
 
 # Rankings
 
@@ -228,7 +211,7 @@ plt.ylabel("Rank")
 plt.ylim(0,numofranks+1)
 plt.xticks(days[:currentday])
 plt.yticks(range(1,numofranks+1))
-plt.savefig("Advent-of-Code/rankings.png")
+plt.savefig("Advent-of-Code-Data/rankings.png")
 
 
 def intstr(i:int) -> str:
@@ -248,9 +231,9 @@ cols = ["username"]
 rf = pd.DataFrame(rankdata,columns=cols)
 rf = rf.sort_values("username")
 #print(rf)
-rf.to_markdown("Advent-of-Code/rankings.md")
-rf.to_markdown("Advent-of-Code/data/rankings.md")
-rf.to_csv("Advent-of-Code/data/rankings.csv")
-#rf.to_excel("Advent-of-Code/data/rankings.xlsx")
+rf.to_markdown("Advent-of-Code-Data/rankings.md")
+rf.to_markdown("Advent-of-Code-Data/rankings.md")
+rf.to_csv("Advent-of-Code-Data/rankings.csv")
+#rf.to_excel("Advent-of-Code-Data/rankings.xlsx")
 
 #print("Done")

@@ -3,42 +3,19 @@ import matplotlib.pyplot as plt
 import matplotlib.scale as pltscale
 import os
 import sys
-import numpy as np
 from numpy.ma.core import masked
 import pandas as pd
 from datetime import datetime
-import browser_cookie3
-import requests
 import time
-
-
-
 os.chdir(os.path.dirname(sys.argv[0]))
+import getLeaderboard as leaderboardapi
+leaderboardapi.getLeaderboard()
 
 PLOT_QUALITY = 240*1
 markers = ['o', 'x', '+', 'v', '^', '<', '>', 's', 'd','p']
-delta = 0
-with open("lastrequest.txt","r") as l:
-    last = int(l.read())
-    delta = int(time.time()) - last
-print(f"last update {delta}s ago")
-if delta > 15*60:
-    print("updated leaderboard.json as it was older than 15 min")
-    #Get cookies from the browser
-    cj = browser_cookie3.firefox()
-
-    r = requests.get("https://adventofcode.com/2021/leaderboard/private/view/1483124.json", allow_redirects=False,cookies=cj)
-
-    open("leaderboard.json", 'wb').write(r.content)
-    open("lastrequest.txt","w").write(str(int(time.time())))
-
 
 lastupdated = datetime.today().strftime('Last updated at %H:%M %d.%m.')
 currentday = int(datetime.today().strftime('%d'))
-with open("Advent-of-Code/README.MD","w") as out:
-    out.write(lastupdated + "\n")
-    with open("README.MD","r") as template:
-        out.write(template.read())
 
 j = ""
 with open("leaderboard.json") as f:
@@ -114,7 +91,7 @@ df = pd.DataFrame(table,columns=cols)
 df = df.sort_values("localscore",ascending=False)
 #print(df)
 
-df.to_excel("times.xlsx")
+df.to_excel("Advent-of-Code-Data/times.xlsx")
 
 # Rankings
 
@@ -166,6 +143,6 @@ for d in days:
 rf = pd.DataFrame(rankdata,columns=cols)
 rf = rf.sort_values("username")
 print(rf)
-rf.to_excel("rankings.xlsx")
+rf.to_excel("Advent-of-Code-Data/rankings.xlsx")
 
 #print("Done")
