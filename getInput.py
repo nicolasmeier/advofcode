@@ -17,7 +17,7 @@ day = date.today().strftime("%d").lstrip("0")
 print(f"Day {day} Y={year}")
 
 timenow = int(datetime.now().strftime("%H%M%S"))
-exectime = 60002
+exectime = 60009
 if timenow < exectime:
     print(f"now = {timenow},run at {exectime}")
     h = int(exectime/10000) - int(datetime.now().strftime("%H"))
