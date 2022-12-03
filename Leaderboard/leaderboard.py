@@ -9,7 +9,7 @@ import time
 import leaderboardapi
 
 os.chdir(os.path.dirname(sys.argv[0]))
-leaderboardapi.getLeaderboard()
+leaderboardapi.get_leaderboard()
 
 PLOT_QUALITY = 240 * 1
 markers = ['o', 'x', '+', 'v', '^', '<', '>', 's', 'd', 'p']

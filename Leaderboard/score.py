@@ -4,11 +4,11 @@ import sys
 from datetime import datetime
 
 import pandas as pd
+import leaderboardapi
 
 os.chdir(os.path.dirname(sys.argv[0]))
-import leaderboardapi as leaderboardapi
 
-leaderboardapi.getLeaderboard()
+leaderboardapi.get_leaderboard()
 
 PLOT_QUALITY = 240 * 1
 markers = ['o', 'x', '+', 'v', '^', '<', '>', 's', 'd', 'p']
@@ -88,6 +88,7 @@ df = df.sort_values("localscore", ascending=False)
 
 df.to_excel("Advent-of-Code-Data/times.xlsx")
 
+quit()
 # Rankings
 
 userrank = dict()
@@ -98,7 +99,7 @@ for d in range(1, 26):
     # print(d)
     ds = df[df[f"day{d}-1"] > 0]
     ds = ds.sort_values(f"day{d}-1", ascending=True)
-    r = 56
+    r = 99
     # 1 0 2 2 3 4 4 6
     for n in ds["username"]:
         userrank[n][(d - 1) * 2] = r
@@ -110,7 +111,7 @@ for d in range(1, 26):
         userrank[n][(d - 1) * 2] = r
     ds = df[df[f"day{d}-2"] > 0]
     ds = ds.sort_values(f"day{d}-2", ascending=True)
-    r = 56
+    r = 99
     for n in ds["username"]:
         userrank[n][(d - 1) * 2 + 1] = r
         r -= 1
