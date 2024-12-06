@@ -42,16 +42,36 @@ for x,r in enumerate(li):
 print((gx,gy),li[gx][gy])
 v.add((gx,gy))
 
+def checkLoop(ld,lx,ly,p):
+    loop = set()
+    loop.add((ld,lx,ly))
+    ld = (ld + 1) % 4
+    while(0 <= lx+direction[ld][0] < mx and 0 <= ly+direction[ld][1] < my):
+        if grid[lx+direction[ld][0]][ly+direction[ld][1]] == '#':
+            ld = (ld + 1) % 4
+        else:
+            lx = lx+direction[ld][0]
+            ly = ly+direction[ld][1]
+        if (ld,lx,ly) in loop:
+            return True
+        loop.add((ld,lx,ly))
+    return False
+
+barriar = set()
+p = set()
+
 while(0 <= gx+direction[cd][0] < mx and 0 <= gy+direction[cd][1] < my):
+    p.add((cd,gx,gy))
     if grid[gx+direction[cd][0]][gy+direction[cd][1]] == '#':
         cd = (cd + 1) % 4
     else:
+        
+        if (gx+direction[cd][0],gy) not in v and checkLoop(cd,gx,gy,p):
+            barriar.add((gx+direction[cd][0],gy+direction[cd][1]))
+
         gx = gx+direction[cd][0]
         gy = gy+direction[cd][1]
-        cl = len(v)
         v.add((gx,gy))
-        if cl == len(v):
-            part2 += 1
 
 print(len(v))
-print(part2)
+print(len(barriar))
