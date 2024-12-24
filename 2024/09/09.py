@@ -52,5 +52,6 @@ print(f"Part1= {part1}")
 
 for i,slot in enumerate(b2):
     k,a = slot
+    print(k,a)
     if k == '.':
         pass
